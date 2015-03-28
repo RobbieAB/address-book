@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 
 import pickle
+import csv
 
 from contact import Contact
 
@@ -26,6 +27,12 @@ class AddressBook:
         with open(savefile,'rb') as f :
             self._data=pickle.load(f)
         
+    def CSVimport(self,csvfile='addressbook.csv'):
+        with open(csvfile, 'r') as f :
+        #with open('/home/robert/guests.csv','r') as csvfile:
+            guestreader=csv.DictReader(f)
+            for row in guestreader:
+                self.add(Contact(firstname=row['First Name'], surname=row['Surname'], address=row['Address']))
         
 if __name__ == "__main__" :
     abook=AddressBook()
@@ -39,6 +46,7 @@ if __name__ == "__main__" :
     abook.load()
     print(abook.list())
     print(abook)
-
+    abook.CSVimport('/home/robert/guests.csv')
+    print(abook)
 
 
